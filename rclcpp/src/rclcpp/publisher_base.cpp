@@ -437,6 +437,11 @@ size_t PublisherBase::lowest_available_ipm_capacity() const
   return ipm->lowest_available_capacity(intra_process_publisher_id_);
 }
 
+RCLCPP_PUBLIC
+void PublisherBase::set_priority_provider(std::function<int32_t()> provider) {
+  scheduling_priority_provider_ = provider;
+}
+
 void
 PublisherBase::set_on_new_qos_event_callback(
   const std::function<void(size_t)> & callback,

@@ -244,6 +244,9 @@ public:
   size_t
   lowest_available_ipm_capacity() const;
 
+  RCLCPP_PUBLIC
+  void set_priority_provider(std::function<int32_t()> provider);
+
   /// Wait until all published messages are acknowledged or until the specified timeout elapses.
   /**
    * This method waits until all published messages are acknowledged by all matching
@@ -361,6 +364,8 @@ protected:
   const rosidl_message_type_support_t type_support_;
 
   const PublisherEventCallbacks event_callbacks_;
+
+  std::function<int32_t()> scheduling_priority_provider_;
 };
 
 }  // namespace rclcpp
