@@ -431,7 +431,15 @@ protected:
   do_inter_process_publish(const ROSMessageType & msg)
   {
     TRACETOOLS_TRACEPOINT(rclcpp_publish, nullptr, static_cast<const void *>(&msg));
-    auto status = rcl_publish(publisher_handle_.get(), &msg, nullptr);
+
+    rcl_ret_t status;
+    if (scheduling_priority_provider_) {
+      auto priority = scheduling_priority_provider_();
+      status = rcl_publish_with_priority(publisher_handle_.get(), &msg,
+                                         priority, nullptr);
+    } else {
+      status = rcl_publish(publisher_handle_.get(), &msg, nullptr);
+    }
 
     if (RCL_RET_PUBLISHER_INVALID == status) {
       rcl_reset_error();  // next call will reset error message if not context
