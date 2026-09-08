@@ -73,8 +73,15 @@ void GenericPublisher::deserialize_message(
 void GenericPublisher::publish_loaned_message(void * loaned_message)
 {
   TRACETOOLS_TRACEPOINT(rclcpp_publish, nullptr, static_cast<const void *>(loaned_message));
-  auto return_code = rcl_publish_loaned_message(
-    get_publisher_handle().get(), loaned_message, NULL);
+  rcl_ret_t return_code;
+  if (scheduling_priority_provider_) {
+    int32_t priority = scheduling_priority_provider_();
+    return_code = rcl_publish_loaned_message_with_priority(
+        get_publisher_handle().get(), loaned_message, priority, NULL);
+  } else {
+    return_code = rcl_publish_loaned_message(get_publisher_handle().get(),
+                                             loaned_message, NULL);
+  }
 
   if (return_code != RCL_RET_OK) {
     rclcpp::exceptions::throw_from_rcl_error(return_code, "failed to publish loaned message");
