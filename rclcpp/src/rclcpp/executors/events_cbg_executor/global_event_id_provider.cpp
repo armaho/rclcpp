@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "global_event_id_provider.hpp"
+#include "rclcpp/executors/events_cbg_executor/global_event_id_provider.hpp"
 
 namespace rclcpp
 {

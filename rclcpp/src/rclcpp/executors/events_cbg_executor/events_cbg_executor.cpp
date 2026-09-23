@@ -79,11 +79,9 @@ struct GlobalWeakExecutableCache
 EventsCBGExecutor::EventsCBGExecutor(
   const rclcpp::ExecutorOptions & options,
   size_t number_of_threads,
-  std::chrono::nanoseconds next_exec_timeout)
-: scheduler(std::make_unique<cbg_executor::FirstInFirstOutScheduler>([this] () {
-      needs_callback_group_resync = true;
-  })),
-  next_exec_timeout_(next_exec_timeout),
+  std::chrono::nanoseconds next_exec_timeout,
+  std::unique_ptr<cbg_executor::CBGScheduler> scheduler)
+: next_exec_timeout_(next_exec_timeout),
   spinning(false),
   interrupt_guard_condition_(std::make_shared<rclcpp::GuardCondition>(options.context) ),
   shutdown_guard_condition_(std::make_shared<rclcpp::GuardCondition>(options.context) ),
@@ -92,6 +90,14 @@ EventsCBGExecutor::EventsCBGExecutor(
   global_executable_cache(std::make_unique<cbg_executor::GlobalWeakExecutableCache>() ),
   nodes_executable_cache(std::make_unique<cbg_executor::GlobalWeakExecutableCache>() )
 {
+  if (scheduler == nullptr) {
+    scheduler = std::make_unique<cbg_executor::FirstInFirstOutScheduler>(
+      [this] () {needs_callback_group_resync = true;});
+  } else {
+    scheduler->set_sync_function([this] () {needs_callback_group_resync = true;});
+  }
+  this->scheduler = std::move(scheduler);
+
   global_executable_cache->add_guard_condition_event (
         interrupt_guard_condition_,
         std::function<void(void)>() );
