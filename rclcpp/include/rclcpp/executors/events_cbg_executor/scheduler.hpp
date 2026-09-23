@@ -20,7 +20,7 @@
 #include <utility>
 
 #include <rclcpp/callback_group.hpp>
-#include "global_event_id_provider.hpp"
+#include "rclcpp/executors/events_cbg_executor/global_event_id_provider.hpp"
 
 namespace rclcpp
 {
@@ -191,7 +191,7 @@ private:
    *                      executed with high priority if triggered by
    *                      trigger_sync();
    */
-  explicit CBGScheduler(std::function<void ()> sync_function)
+  explicit CBGScheduler(std::function<void ()> sync_function = [] () {})
   : sync_function(sync_function) {}
   CBGScheduler(const CBGScheduler &) = delete;
   CBGScheduler(CBGScheduler &&) = delete;
@@ -220,6 +220,11 @@ private:
     callback_groups.remove_if([&callback_handle] (const auto & e) {
         return e.get() == callback_handle;
     });
+  }
+
+  void set_sync_function(std::function<void ()> sync_function)
+  {
+    this->sync_function = sync_function;
   }
 
   /** Will be called, by CallbackGroupHandle if any entity in the cb group is ready for execution

@@ -19,7 +19,7 @@
 #include <memory>
 #include <vector>
 
-#include "scheduler.hpp"
+#include "rclcpp/executors/events_cbg_executor/scheduler.hpp"
 #include "timer_manager.hpp"
 #include <rclcpp/executors/executor_entities_collection.hpp>
 

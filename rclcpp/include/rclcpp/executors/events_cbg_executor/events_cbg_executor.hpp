@@ -24,6 +24,8 @@
 #include "rclcpp/macros.hpp"
 #include "rclcpp/visibility_control.hpp"
 
+#include "rclcpp/executors/events_cbg_executor/scheduler.hpp"
+
 namespace rclcpp
 {
 namespace executors
@@ -33,7 +35,6 @@ namespace cbg_executor
 {
 class TimerManager;
 struct RegisteredEntityCache;
-class CBGScheduler;
 struct GlobalWeakExecutableCache;
 }
 
@@ -53,12 +54,14 @@ public:
    * \param number_of_threads number of threads to have in the thread pool,
    *   the default 0 will use the number of cpu cores found (minimum of 2)
    * \param timeout maximum time to wait
+   * \param scheduler to use in executor, defaults to FirstInFirstOutScheduler
    */
   RCLCPP_PUBLIC
   explicit EventsCBGExecutor(
     const rclcpp::ExecutorOptions & options = rclcpp::ExecutorOptions(),
     size_t number_of_threads = 0,
-    std::chrono::nanoseconds timeout = std::chrono::nanoseconds(-1));
+    std::chrono::nanoseconds timeout = std::chrono::nanoseconds(-1),
+    std::unique_ptr<cbg_executor::CBGScheduler> scheduler = nullptr);
 
   RCLCPP_PUBLIC
   virtual ~EventsCBGExecutor();
