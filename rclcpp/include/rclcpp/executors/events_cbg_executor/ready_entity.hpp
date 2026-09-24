@@ -16,9 +16,9 @@
 
 #include <utility>
 
-#include "rclcpp/executors/events_cbg_executor/scheduler.hpp"
-#include "rclcpp/executors/events_cbg_executor/global_event_id_provider.hpp"
-#include "rclcpp/executors/events_cbg_executor/events_cbg_executor.hpp"
+#include "scheduler.hpp"
+#include "global_event_id_provider.hpp"
+#include "events_cbg_executor.hpp"
 
 namespace rclcpp
 {
