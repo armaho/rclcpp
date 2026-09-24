@@ -19,7 +19,7 @@
 
 #include <vector>
 
-#include "ready_entity.hpp"
+#include "rclcpp/executors/events_cbg_executor/ready_entity.hpp"
 #include "rclcpp/executors/events_cbg_executor/scheduler.hpp"
 #include "rclcpp/executors/events_cbg_executor/global_event_id_provider.hpp"
 
