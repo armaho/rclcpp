@@ -238,7 +238,7 @@ private:
    *                                before this call was made. This means we need to wakeup a
    *                                a new thread.
    */
-  void callback_group_ready(CallbackGroupHandle *handle, bool callback_group_was_idle)
+  virtual void callback_group_ready(CallbackGroupHandle *handle, bool callback_group_was_idle)
   {
     {
       std::lock_guard l(ready_callback_groups_mutex);
