@@ -168,7 +168,7 @@ protected:
 
     std::mutex ready_mutex;
 
-private:
+protected:
     // will be set if cbg is mutual exclusive and something is executing
     bool not_ready = false;
 
