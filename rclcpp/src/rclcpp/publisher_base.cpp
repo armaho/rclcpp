@@ -438,7 +438,8 @@ size_t PublisherBase::lowest_available_ipm_capacity() const
 }
 
 RCLCPP_PUBLIC
-void PublisherBase::set_priority_provider(std::function<int32_t()> provider) {
+void PublisherBase::set_priority_provider(std::function<int64_t()> provider)
+{
   scheduling_priority_provider_ = provider;
 }
 

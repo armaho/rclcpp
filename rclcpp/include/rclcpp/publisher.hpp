@@ -474,7 +474,7 @@ protected:
     TRACETOOLS_TRACEPOINT(rclcpp_publish, nullptr, static_cast<const void *>(msg.get()));
     rcl_ret_t status;
     if (scheduling_priority_provider_) {
-      uint32_t priority = scheduling_priority_provider_();
+      auto priority = scheduling_priority_provider_();
       status = rcl_publish_loaned_message_with_priority(
           publisher_handle_.get(), msg.get(), priority, nullptr);
     } else {

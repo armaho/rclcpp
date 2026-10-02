@@ -245,7 +245,7 @@ public:
   lowest_available_ipm_capacity() const;
 
   RCLCPP_PUBLIC
-  void set_priority_provider(std::function<int32_t()> provider);
+  void set_priority_provider(std::function<int64_t()> provider);
 
   /// Wait until all published messages are acknowledged or until the specified timeout elapses.
   /**
@@ -365,7 +365,7 @@ protected:
 
   const PublisherEventCallbacks event_callbacks_;
 
-  std::function<int32_t()> scheduling_priority_provider_;
+  std::function<int64_t()> scheduling_priority_provider_;
 };
 
 }  // namespace rclcpp
